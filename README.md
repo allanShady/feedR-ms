@@ -19,3 +19,5 @@ The overall repository structure consists of the following projects located unde
 - [Docker](https://docs.docker.com/get-docker)
 
 > To start the infrastructure via Docker, type the following command `docker-compose -f compose/infrastructure.yml up -d`
+
+> **To un the services, type the following command `docker-compose -f compose/services.yml up -d`**
