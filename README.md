@@ -12,11 +12,12 @@ The overall repository structure consists of the following projects located unde
   - **Quotes** - sample feed providing the quotes (e.g. currency)
   - **Weather** - sample feed providing the weather related data
 
-## 🚀 Requirements
+## 🚀 Techs
 
 - [Linux maybe](https://ubuntu.com/)
 - [.NET 6.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 - [Docker](https://docs.docker.com/get-docker)
+- [Yarp](https://microsoft.github.io/reverse-proxy/index.html)
 
 > To start the infrastructure via Docker, type the following command `docker-compose -f compose/infrastructure.yml up -d`
 
