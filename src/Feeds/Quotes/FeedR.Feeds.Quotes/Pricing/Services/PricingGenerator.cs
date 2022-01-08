@@ -17,7 +17,7 @@ internal sealed class PricingGenerator : IPricingGenerator
         ["EURCHF"] = 1.04M,
         ["EURPLN"] = 4.62M,
     };
-    public async Task startAsync()
+    public async Task StartAsync()
     {
         _isRunning = true;
         while(_isRunning)
@@ -39,7 +39,7 @@ internal sealed class PricingGenerator : IPricingGenerator
             }
     }
 
-    public Task stopAsync()
+    public Task StopAsync()
     {
          _isRunning = false;
         return Task.CompletedTask;
