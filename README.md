@@ -20,6 +20,12 @@ The overall repository structure consists of the following projects located unde
 - [Yarp](https://microsoft.github.io/reverse-proxy/index.html)
 - [PM2](https://pm2.keymetrics.io/)
 
-> To start the infrastructure via Docker, type the following command `docker-compose -f compose/infrastructure.yml up -d`
+> To start the infrastructure via Docker, type the following command 
+```shell 
+  docker-compose -f compose/infrastructure.yml up -d
+```
 
-> **To un the services, type the following command `docker-compose -f compose/services.yml up -d`**
+> **To un the services, type the following command** 
+```bash 
+  docker-compose -f compose/services.yml up -d
+```
