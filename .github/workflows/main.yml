@@ -34,11 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sonar Scan.NET 6
+        run: ls
         uses: highbyte/sonarscan-dotnet@v2.1.2
         with:
           sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
           sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
           sonarOrganization: ${{ secrets.SONAR_ORGANIZATION }}
+          dotnetBuildArguments: ./FeedR.sln
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
