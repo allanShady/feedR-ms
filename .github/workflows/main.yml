@@ -64,14 +64,12 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
-      - name: Build and analyze
+      - name: Sonar Scan.NET 6
+        uses: highbyte/sonarscan-dotnet@v2.1.2
         with:
-          dotnet-version: 6.0.101
+          sonarProjectKey: ${{ dev.SONAR_PROJECT_KEY }}
+          sonarProjectName: ${{ dev.SONAR_PROJECT_NAME }}
+          sonarOrganization: ${{ dev.SONAR_ORGANIZATION }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"allanShady_feedR-ms" /o:"allanshady" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
