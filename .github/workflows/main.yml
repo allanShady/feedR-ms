@@ -29,12 +29,6 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
 
-  code-quality:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: check quality folder
-        run: ls
       - name: Sonar Scan.NET 6
         uses: highbyte/sonarscan-dotnet@v2.1.2
         with:
