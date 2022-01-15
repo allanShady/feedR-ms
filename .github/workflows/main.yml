@@ -67,9 +67,9 @@ jobs:
       - name: Sonar Scan.NET 6
         uses: highbyte/sonarscan-dotnet@v2.1.2
         with:
-          sonarProjectKey: ${{ SONAR_PROJECT_KEY }}
-          sonarProjectName: ${{ SONAR_PROJECT_NAME }}
-          sonarOrganization: ${{ SONAR_ORGANIZATION }}
+          sonarProjectKey: ${{ env.SONAR_PROJECT_KEY }}
+          sonarProjectName: ${{ env.SONAR_PROJECT_NAME }}
+          sonarOrganization: ${{ env.SONAR_ORGANIZATION }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
