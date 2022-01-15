@@ -1,0 +1,41 @@
+name: Main workflow
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.101
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Sonar Scan.NET 6
+        uses: highbyte/sonarscan-dotnet@v2.1.2
+        with:
+          sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
+          sonarOrganization: ${{ secrets.SONAR_ORGANIZATION }}
+          dotnetBuildArguments: ./FeedR.sln
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
