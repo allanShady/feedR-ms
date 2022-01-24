@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "FeedR.Feeds.Quotes.Pricing";
+
+package pricing.protos;
+
+service PricingFeed {
+    rpc GetSymbols(GetSymbolsRequest) returns (GetSymbolsResponse);
+}
+
+message GetSymbolsRequest {
+}
+
+message GetSymbolsResponse {
+    repeated string symbols = 1;
+}
