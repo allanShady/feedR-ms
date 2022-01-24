@@ -18,6 +18,9 @@ internal sealed class PricingGenerator : IPricingGenerator
         ["EURCHF"] = 1.04M,
         ["EURPLN"] = 4.62M,
     };
+
+    public IEnumerable<string> GetSymbols() => _currencyPairs.Keys;
+
     public async IAsyncEnumerable<CurrencyPair> StartAsync()
     {
         _isRunning = true;
