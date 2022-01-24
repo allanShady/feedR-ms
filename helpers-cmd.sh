@@ -11,3 +11,14 @@ dotnet run -p src/Gateway/FeedR.Gateway/FeedR.Gateway.csproj
 dotnet run -p src/Feeds/News/FeedR.Feeds.News/FeedR.Feeds.News.csproj  
 dotnet run -p src/Feeds/Weather/FeedR.Feeds.Weather/FeedR.Feeds.Weather.csproj  
 dotnet run -p src/Feeds/Quotes/FeedR.Feeds.Quotes/FeedR.Feeds.Quotes.csproj 
+
+#Create console sample client for GRPC endpoint
+dotnet new console -n FeedR.Clients.Console -o src/Clients/Console/FeedR.Clients.Console 
+
+##Console client add necessary reference
+dotnet add package Google.Protobuf   
+dotnet add package Grpc.Net.Client 
+dotnet add package Grpc.Tools  
+
+# add project to the solution
+dotnet sln add src/Clients/Console/FeedR.Clients.Console/FeedR.Clients.Console.csproj   

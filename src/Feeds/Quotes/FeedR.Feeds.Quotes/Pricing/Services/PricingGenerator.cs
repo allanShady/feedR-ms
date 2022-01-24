@@ -18,6 +18,11 @@ internal sealed class PricingGenerator : IPricingGenerator
         ["EURCHF"] = 1.04M,
         ["EURPLN"] = 4.62M,
     };
+
+    public event EventHandler<CurrencyPair>? PricingUpdated;
+
+    public IEnumerable<string> GetSymbols() => _currencyPairs.Keys;
+
     public async IAsyncEnumerable<CurrencyPair> StartAsync()
     {
         _isRunning = true;
@@ -35,6 +40,9 @@ internal sealed class PricingGenerator : IPricingGenerator
 
                 var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 var currencyPair = new CurrencyPair(symbol, newPricing, timestamp);
+
+                //fire pricing updated event
+                PricingUpdated?.Invoke(this, currencyPair);
 
                 yield return currencyPair;
 
