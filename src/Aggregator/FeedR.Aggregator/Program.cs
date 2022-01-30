@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddHostedService<PricingStreamBackgroundServie>()
+    .AddHostedService<WeatherStreamBackgroundServie>()
     .AddStreaming()
     .AddSerialization()
     .AddRedis(builder.Configuration)
@@ -15,10 +16,10 @@ builder.Services
 
 var app = builder.Build();
 
-app.MapGet("/", async ctx => 
+app.MapGet("/", async ctx =>
 {
     await ctx.Response.WriteAsync($"FeedR Aggregator, request ID:, {ctx.Request.Headers["x-request-id"]}");
 }
 );
 
-app.Run(); 
+app.Run();
