@@ -7,21 +7,21 @@ internal sealed class WeatherFeed : IWeatherFeed
     //TODO: refactor - load this data from configuration or from env var
     private const string ApiKey = "secret";
     private const string ApiUrl = "secret";
+    private readonly HttpClient _client;
+    private readonly ILogger<WeatherFeed> _logger;
 
-    private readonly IHttpClientFactory _clientFactory;
-
-    public WeatherFeed(IHttpClientFactory clientFactory)
+    public WeatherFeed(HttpClient client, ILogger<WeatherFeed> logger)
     {
-        _clientFactory = clientFactory;
+        _client = client;
+        _logger = logger;
     }
     public async IAsyncEnumerable<WeatherData> SubscribeAsync(string location, CancellationToken cancellationToken)
     {
-        var client = _clientFactory.CreateClient();
         var url = $"{ApiUrl}?key={ApiKey}&q={location}&aqi=no";
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            var response = await client.GetFromJsonAsync<WeatherResponse>(url, cancellationToken);
+            var response = await _client.GetFromJsonAsync<WeatherResponse>(url, cancellationToken);
 
             if (response is null) continue;
 
