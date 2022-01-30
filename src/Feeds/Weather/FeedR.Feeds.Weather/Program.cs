@@ -4,6 +4,7 @@ using FeedR.Shared.HTTP;
 var builder = WebApplication.CreateBuilder(args);
 builder
     .Services
+    .AddHostedService<WeatherBackgroundService>()
     .AddHttpClient()
     .AddHttpApiClient<IWeatherFeed, WeatherFeed>();
 
