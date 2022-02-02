@@ -1,3 +1,4 @@
+using FeedR.Aggregator.Services.Models;
 using FeedR.Shared.Streaming;
 
 namespace FeedR.Aggregator.Services;
@@ -18,6 +19,4 @@ internal sealed class PricingStreamBackgroundServie : BackgroundService
             _logger.LogInformation($"Pricing '{currencyPair.Symbol}' = {currencyPair.Value:F}, timestamp: {currencyPair.TimeStamp}");
         });
     }
-
-    private record CurrencyPair(string Symbol, decimal Value, long TimeStamp);
 }
