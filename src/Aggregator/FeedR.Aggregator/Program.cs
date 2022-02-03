@@ -14,7 +14,8 @@ builder.Services
     .AddSerialization()
     .AddRedis(builder.Configuration)
     .AddRedisStreaming()
-    .AddMessaging();
+    .AddMessaging()
+    .AddSingleton<IPricingHandler, PricingHandler>();
 
 var app = builder.Build();
 
