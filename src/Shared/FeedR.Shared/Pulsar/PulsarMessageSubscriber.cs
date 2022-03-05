@@ -1,11 +1,47 @@
+using System.Reflection;
+using DotPulsar;
+using DotPulsar.Extensions;
 using FeedR.Shared.Messaging;
+using FeedR.Shared.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace FeedR.Shared.Pulsar;
 
 internal sealed class PulsarMessageSubscriber : IMessageSubscriber
 {
-    public Task SubscribeAsync<T>(string topic, Action<T> handler) where T : class, IMessage
+    private readonly string _consumerName;
+    private readonly ISerializer _serializer;
+    private readonly ILogger<PulsarMessageSubscriber> _logger;
+    private readonly DotPulsar.Abstractions.IPulsarClient _client;
+
+    public PulsarMessageSubscriber(ISerializer serializer, ILogger<PulsarMessageSubscriber> logger)
     {
-        throw new NotImplementedException();
+        _logger = logger;
+        _serializer = serializer;
+        _client = PulsarClient.Builder().Build();
+        _consumerName = Assembly.GetEntryAssembly()?.FullName?.Split(",")[0] ?? string.Empty;
+    }
+    public async Task SubscribeAsync<T>(string topic, Action<T> handler) where T : class, IMessage
+    {
+        var subscription = $"{_consumerName}-{topic}";
+        var consumer = _client.NewConsumer()
+            .SubscriptionName(subscription)
+            .Topic($"persistent://public/default/{topic}")
+            .Create();
+
+        await foreach (var message in consumer.Messages())
+        {
+            _logger.LogInformation($"Received a message with ID: '{message.MessageId}'");
+            var payload = _serializer.DeserializeBytes<T>(message.Data.FirstSpan.ToArray());
+
+            if (payload is not null)
+            {
+                var json = _serializer.Serialize(payload);
+                _logger.LogInformation(json);
+                handler(payload);
+            }
+
+            await consumer.Acknowledge(message);
+        }
     }
 }
