@@ -22,3 +22,6 @@ dotnet add package Grpc.Tools
 
 # add project to the solution
 dotnet sln add src/Clients/Console/FeedR.Clients.Console/FeedR.Clients.Console.csproj   
+
+# Install apache pulsar
+dotnet add src/Shared/FeedR.Shared/FeedR.Shared.csproj package DotPulsar
