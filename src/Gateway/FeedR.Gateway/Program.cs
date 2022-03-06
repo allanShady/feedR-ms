@@ -1,3 +1,4 @@
+using FeedR.Shared.Observability;
 using Microsoft.AspNetCore.Builder;
 using Yarp.ReverseProxy.Transforms;
 
@@ -6,15 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("yarp"))
-    .AddTransforms(transforms => 
+    .AddTransforms(transforms =>
     {
-        transforms.AddRequestTransform(transform => 
+        transforms.AddRequestTransform(transform =>
         {
-            var requestId = Guid.NewGuid().ToString();
-            transform.ProxyRequest.Headers.Add("x-request-id", requestId);
+            var correlationId = Guid.NewGuid().ToString("N");
+            transform.ProxyRequest.Headers.AddCorrelationId(correlationId);
+
             return ValueTask.CompletedTask;
         });
-        
+
     });
 
 var app = builder.Build();
