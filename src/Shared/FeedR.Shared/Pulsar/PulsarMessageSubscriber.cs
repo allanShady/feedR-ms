@@ -31,7 +31,10 @@ internal sealed class PulsarMessageSubscriber : IMessageSubscriber
 
         await foreach (var message in consumer.Messages())
         {
-            _logger.LogInformation($"Received a message with ID: '{message.MessageId}'");
+            var producer = message.Properties["producer"];
+            var customId = message.Properties["custom_id"];
+
+            _logger.LogInformation($"Received a message with ID: '{message.MessageId}' from: '{producer}' with custom ID '{customId}'");
             var payload = _serializer.DeserializeBytes<T>(message.Data.FirstSpan.ToArray());
 
             if (payload is not null)
