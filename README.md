@@ -12,6 +12,11 @@ The overall repository structure consists of the following projects located unde
   - **Quotes** - sample feed providing the quotes (e.g. currency)
   - **Weather** - sample feed providing the weather related data
 
+<p align="center">
+ <img src="https://img.shields.io/static/v1?label=Coverage&message=sonar Cloud&color=15C3D6&labelColor=000000" alt="Coverage" />
+  <img alt="License" src="https://img.shields.io/static/v1?label=license&message=MIT&color=15C3D6&labelColor=000000"/>
+</p>
+
 ## 🚀 Techs
 
 - [Linux maybe](https://ubuntu.com/)
@@ -21,6 +26,13 @@ The overall repository structure consists of the following projects located unde
 - [PM2](https://pm2.keymetrics.io/)
 - [Apache Pulsar](https://pulsar.apache.org/)
 - [Redis](https://redis.io/)
+- [gRPC](https://grpc.io/)
+
+## 🧘🏿‍ Features
+- [x] Datastream
+- [x] Message broker
+- [x] Sync and Async comunication (http + gRPC)
+- [x] Loadbalancer
 
 > To start the infrastructure via Docker, type the following command 
 ```shell 
