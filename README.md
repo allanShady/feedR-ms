@@ -24,6 +24,7 @@ The overall repository structure consists of the following projects located unde
 - [Docker](https://docs.docker.com/get-docker)
 - [Yarp](https://microsoft.github.io/reverse-proxy/index.html)
 - [PM2](https://pm2.keymetrics.io/)
+- [Apache Pulsar](https://pulsar.apache.org/)
 - [Redis](https://redis.io/)
 - [gRPC](https://grpc.io/)
 
