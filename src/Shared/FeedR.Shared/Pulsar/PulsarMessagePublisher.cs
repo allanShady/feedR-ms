@@ -6,6 +6,8 @@ using DotPulsar.Abstractions;
 using DotPulsar.Extensions;
 using FeedR.Shared.Messaging;
 using FeedR.Shared.Serialization;
+using FeedR.Shared.Observability;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using IMessage = FeedR.Shared.Messaging.IMessage;
 
@@ -15,15 +17,17 @@ internal sealed class PulsarMessagePublisher : IMessagePublisher
 {
     //TODO: Extract Pulsar into app setting and dedicated options type
     private readonly ISerializer _serializer;
+    private readonly IHttpContextAccessor _contextAccessor;
     private readonly ILogger<PulsarMessagePublisher> _logger;
     private readonly IPulsarClient _client;
     private readonly string _producerName;
     private readonly ConcurrentDictionary<string, IProducer<ReadOnlySequence<byte>>> _producers = new();
 
-    public PulsarMessagePublisher(ISerializer serializer, ILogger<PulsarMessagePublisher> logger)
+    public PulsarMessagePublisher(ISerializer serializer, IHttpContextAccessor contextAccessor, ILogger<PulsarMessagePublisher> logger)
     {
         _logger = logger;
         _serializer = serializer;
+        _contextAccessor = contextAccessor;
         _client = PulsarClient.Builder().Build();
         _producerName = Assembly.GetEntryAssembly()?.FullName?.Split(",")[0].ToLowerInvariant() ?? string.Empty;
     }
@@ -34,15 +38,17 @@ internal sealed class PulsarMessagePublisher : IMessagePublisher
                             .Topic($"persistent://public/default/{topic}")
                             .Create());
 
+        var correlationId = _contextAccessor.HttpContext?.GetCorrelationId() ?? Guid.NewGuid().ToString("N");
         var payload = _serializer.SerializeBytes(message);
 
         var metadata = new MessageMetadata()
         {
             ["custom_id"] = Guid.NewGuid().ToString("N"),
-            ["producer"] = _producerName
+            ["producer"] = _producerName,
+            ["correlationId"] = correlationId
         };
 
         var messageId = await producer.Send(metadata, payload);
-        _logger.LogInformation($"Sent a message with ID: '{messageId}'");
+        _logger.LogInformation($"Sent a message with ID: '{messageId}' and Correlation ID: '{correlationId}'");
     }
 }

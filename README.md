@@ -31,7 +31,7 @@ The overall repository structure consists of the following projects located unde
 ## 🧘🏿‍ Features
 - [x] Datastream
 - [x] Message broker
-- [x] Sync and Async comunication (http + gRPC)
+- [x] Sync and Async communication (http + gRPC)
 - [x] Loadbalancer
 
 > To start the infrastructure via Docker, type the following command 
