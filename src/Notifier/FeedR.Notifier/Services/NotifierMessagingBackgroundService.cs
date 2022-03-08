@@ -1,5 +1,6 @@
 using FeedR.Notifier.Events.External;
 using FeedR.Shared.Messaging;
+using FeedR.Shared.Observability;
 
 namespace FeedR.Notifier.Services;
 
@@ -16,9 +17,10 @@ internal sealed class NotifierMessagingBackgroundService : BackgroundService
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _messageSubscriber.SubscribeAsync<OrderPlaced>("orders", message =>
+        _messageSubscriber.SubscribeAsync<OrderPlaced>("orders", messageEnvelope =>
         {
-            _logger.LogInformation($"order with ID: {message.OrderId} for symbol '{message.Symbol}' has been placed");
+            _logger.LogInformation($"order with ID: {messageEnvelope.Message.OrderId} for symbol '{messageEnvelope.Message.Symbol}' has been placed" +
+            $" Correlation ID: '{messageEnvelope.CorrelationId}'");
         });
 
         return Task.CompletedTask;

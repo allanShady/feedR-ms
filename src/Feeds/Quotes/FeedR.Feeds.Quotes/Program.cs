@@ -8,6 +8,7 @@ using FeedR.Shared.Streaming;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
+    .AddHttpContextAccessor()
     .AddStreaming()
     .AddSerialization()
     .AddRedis(builder.Configuration)

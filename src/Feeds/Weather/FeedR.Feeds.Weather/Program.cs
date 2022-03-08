@@ -4,10 +4,12 @@ using FeedR.Shared.Redis;
 using FeedR.Shared.Redis.Streaming;
 using FeedR.Shared.Serialization;
 using FeedR.Shared.Streaming;
+using FeedR.Shared.Observability;
 
 var builder = WebApplication.CreateBuilder(args);
 builder
     .Services
+    .AddHttpContextAccessor()
     .AddSerialization()
     .AddStreaming()
     .AddRedis(builder.Configuration)
@@ -17,6 +19,7 @@ builder
     .AddHttpApiClient<IWeatherFeed, WeatherFeed>();
 
 var app = builder.Build();
+app.UseCorrelationId();
 
 app.MapGet("/", () => "FeedR Weather feed");
 
