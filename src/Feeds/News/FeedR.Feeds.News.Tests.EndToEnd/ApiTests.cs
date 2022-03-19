@@ -11,7 +11,7 @@ using Xunit;
 
 namespace FeedR.Feeds.News.Tests.EndToEnd;
 
-[ExcludeFromCodeCoverage]
+// [ExcludeFromCodeCoverage]
 public sealed class ApiTests
 {
     [Fact]
