@@ -27,7 +27,7 @@ jobs:
         run: dotnet build -c Release --no-restore
 
       - name: Provision the infrastructure
-      - run: docker-compose -f compose/infrastructure.yml up -d
+        run: docker-compose -f compose/infrastructure.yml up -d
 
       - name: Test
         run: dotnet test --verbosity normal
