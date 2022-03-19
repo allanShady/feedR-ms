@@ -34,6 +34,7 @@ jobs:
         run: dotnet test --verbosity normal
 
       - name: Sonar Scan.NET 6
+        run: docker-compose -f compose/infrastructure.yml up -d
         uses: highbyte/sonarscan-dotnet@v2.1.2
         with:
           sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
