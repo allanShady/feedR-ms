@@ -39,6 +39,7 @@ jobs:
           sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
           sonarOrganization: ${{ secrets.SONAR_ORGANIZATION }}
           dotnetBuildArguments: ./FeedR.sln
+          dotnetDisableTests: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
