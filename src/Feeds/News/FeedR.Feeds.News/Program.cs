@@ -20,6 +20,9 @@ app.MapPost("/news", async (PublishNews news, IStreamPublisher streamPublisher) 
 {
     var @event = new NewsPublished(news.Title, news.Category);
     await streamPublisher.PublihsAsync("news", @event);
+    // Background task simulation - testing purposes
+    // Task.Run(() => Task.Delay(5000).ContinueWith(t => streamPublisher.PublihsAsync("news", @event)));
+
     return Results.Accepted();
 });
 
