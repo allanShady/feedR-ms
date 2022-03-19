@@ -14,12 +14,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: highbyte/sonarscan-dotnet@v2.1.2
-        with:
-          sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
-          sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
-          sonarOrganization: ${{ secrets.SONAR_ORGANIZATION }}
-          dotnetBuildArguments: ./FeedR.sln
 
       - name: setup .NET
         uses: actions/setup-dotnet@v1
@@ -32,15 +26,18 @@ jobs:
       - name: Build
         run: dotnet build -c Release --no-restore
 
-      - uses: actions/checkout@v2
-      - name: Provision the infrastructure
-        run: docker-compose -f compose/infrastructure.yml up -d
+      - run: docker-compose -f compose/infrastructure.yml up -d
 
       - name: Test
         run: dotnet test --verbosity normal
 
       - name: Sonar Scan.NET 6
+      - uses: highbyte/sonarscan-dotnet@v2.1.2
+        with:
+          sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
+          sonarOrganization: ${{ secrets.SONAR_ORGANIZATION }}
+          dotnetBuildArguments: ./FeedR.sln
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: docker-compose -f compose/infrastructure.yml up -d
