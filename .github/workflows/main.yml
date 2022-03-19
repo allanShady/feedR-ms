@@ -35,7 +35,6 @@ jobs:
 
       - name: Sonar Scan.NET 6
       - uses: highbyte/sonarscan-dotnet@v2.1.2
-        run: docker-compose -f compose/infrastructure.yml up -d
         with:
           sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
           sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
@@ -44,3 +43,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: docker-compose -f compose/infrastructure.yml up -d
