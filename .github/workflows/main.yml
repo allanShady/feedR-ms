@@ -30,7 +30,7 @@ jobs:
         run: docker-compose -f compose/infrastructure.yml up -d
 
       - name: Test
-        run: dotnet test --verbosity normal--logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        run: dotnet test --verbosity normal --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: Sonar Scan.NET 6
         uses: highbyte/sonarscan-dotnet@v2.1.2
