@@ -20,7 +20,7 @@ app.MapPost("/news", async (PublishNews news, IStreamPublisher streamPublisher) 
 {
     var @event = new NewsPublished(news.Title, news.Category);
     await streamPublisher.PublihsAsync("news", @event);
-    return Results.Accepted;
+    return Results.Accepted();
 });
 
 app.Run();
