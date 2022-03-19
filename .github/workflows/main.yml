@@ -26,8 +26,12 @@ jobs:
       - name: Build
         run: dotnet build -c Release --no-restore
 
+      - uses: actions/checkout@v2
+      - name: Provision the infrastructure
+        run: docker-compose -f compose/infrastructure.yml up -d
+
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --verbosity normal
 
       - name: Sonar Scan.NET 6
         uses: highbyte/sonarscan-dotnet@v2.1.2
