@@ -24,7 +24,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build -c Release --no-restore
+        run: dotnet build --no-restore
 
       - name: Provision the infrastructure
         run: docker-compose -f compose/infrastructure.yml up -d
