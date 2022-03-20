@@ -32,17 +32,23 @@ jobs:
       - name: Test
         run: dotnet test --no-build --blame --verbosity normal --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
-      - name: Sonar Scan.NET 6
-        uses: highbyte/sonarscan-dotnet@v2.1.2
-        with:
-          sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
-          sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
-          sonarOrganization: ${{ secrets.SONAR_ORGANIZATION }}
-          dotnetBuildArguments: ./FeedR.sln
-          dotnetDisableTests: true
+      # - name: Sonar Scan.NET 6
+      #   uses: highbyte/sonarscan-dotnet@v2.1.2
+      #   with:
+      #     sonarProjectKey: ${{ secrets.SONAR_PROJECT_KEY }}
+      #     sonarProjectName: ${{ secrets.SONAR_PROJECT_NAME }}
+      #     sonarOrganization: ${{ secrets.SONAR_ORGANIZATION }}
+      #     dotnetBuildArguments: ./FeedR.sln
+      #     dotnetDisableTests: true
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   # #sonar-scan:
   #   runs-on: ubuntu-latest
