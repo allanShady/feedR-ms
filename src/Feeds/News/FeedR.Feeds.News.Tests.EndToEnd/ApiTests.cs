@@ -11,7 +11,7 @@ using Xunit;
 
 namespace FeedR.Feeds.News.Tests.EndToEnd;
 
-[ExcludeFromCodeCoverage]
+// [ExcludeFromCodeCoverage]
 public sealed class ApiTests
 {
     [Fact]
@@ -30,11 +30,12 @@ public sealed class ApiTests
         // Given
         var tcs = new TaskCompletionSource<NewsPublished>();
         var subscriber = _app.Services.GetRequiredService<IStreamSubscriber>();
+
         await subscriber.SubscribeAsync<NewsPublished>("news", message =>
         {
             tcs.SetResult(message);
         });
-        var request = new PublishNews("Guambe Cyclone", "Cyclone");
+        var request = new PublishNews("Kuambe Cyclone", "Cyclone");
 
         // When
         var response = await _client.PostAsJsonAsync("news", request);
@@ -46,7 +47,6 @@ public sealed class ApiTests
         @event.Title.ShouldBe(request.Title);
         @event.Category.ShouldBe(request.Category);
     }
-
 
     private readonly NewTestApp _app;
     private readonly HttpClient _client;
